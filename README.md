@@ -2,6 +2,7 @@
 threejs demo
 
 npm install
+
 bower install
 
 # Run
