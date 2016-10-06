@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link href="style/index.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div id="WebGLOutput"></div>
+
+<script src="bower_components/three.js/three.min.js" type="text/javascript"></script>
+<script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+<script src="bower_components/dat.gui/build/dat.gui.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+  var screenWidth = document.body.scrollWidth;
+  var screenHeight = document.body.scrollHeight;
+
+  var scene = new THREE.Scene();
+  var camera;
+  var renderer = new THREE.WebGLRenderer();
+  var cube;
+  var sphere;
+
+  var controls = new function () {
+    this.rotationSpeed = 0.02;
+    this.bouncingSpeed = 1;
+  };
+
+  var gui = new dat.GUI();
+  gui.add(controls, 'rotationSpeed', 0, 0.5);
+  gui.add(controls, 'bouncingSpeed', 0, 180);
+
+  setRenderer();
+  setPerspectiveCamera();
+
+  addAxes();
+  addPlane();
+  addSphere();
+  addCube();
+
+  setCamera();
+  addSpotLight();
+  showCanvas();
+  render();
+
+  function  setPerspectiveCamera() {
+    camera = new THREE.PerspectiveCamera(45, screenWidth / screenHeight, 0.1, 1000);
+  }
+
+  function setRenderer() {
+    renderer.setClearColor(0xEEEEEE, 1.0);
+    renderer.setSize(screenWidth, screenHeight);
+    renderer.shadowMap.enabled = true;
+  }
+
+  function addAxes() {
+    var axes = new THREE.AxisHelper(10);
+    scene.add(axes);
+  }
+
+  function addPlane() {
+    var planeGeometry = new THREE.PlaneGeometry(60, 10);
+    var planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff});
+    var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+    plane.receiveShadow = true;
+
+    plane.rotation.x = -0.5*Math.PI;
+    plane.position.x = 20;
+    plane.position.y = -5;
+    plane.position.z = 0;
+
+    scene.add(plane);
+  }
+
+  function addCube() {
+    var cubeGeometry = new THREE.CubeGeometry(2, 2, 2, 4, 4, 4);
+    var cubeMaterial = new THREE.MeshLambertMaterial({color:0xff0000});
+    cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+
+    cube.position.x = -4;
+    cube.position.y = -4;
+    cube.position.z = 0;
+    cube.castShadow = true;
+
+    scene.add(cube);
+  }
+
+  function addSphere() {
+    var sphereGeometry = new THREE.SphereGeometry(2, 20, 20);
+    var sphereMaterial = new THREE.MeshLambertMaterial({color: 0x7777ff});
+    sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+
+    sphere.position.x = 20;
+    sphere.position.y = 0;
+    sphere.position.z = 0;
+    sphere.castShadow = true;
+
+    scene.add(sphere);
+  }
+
+  function addSpotLight() {
+    var spotLight = new THREE.SpotLight(0xffffff);
+    spotLight.position.set(-30, 30, -10);
+    spotLight.castShadow = true;
+
+    scene.add(spotLight);
+  }
+
+  function setCamera() {
+    camera.position.x = -15;
+    camera.position.y = 20;
+    camera.position.z = 10;
+
+    camera.lookAt(scene.position);
+  }
+
+  function showCanvas() {
+    $('#WebGLOutput').append(renderer.domElement);
+  }
+
+  var step = 0;
+
+  function render() {
+    step += controls.bouncingSpeed;
+
+    sphere.position.x = 20 + 10*Math.cos(2*Math.PI/360*step);
+    sphere.position.y = 0 + 2*Math.sin(2*Math.PI/360*step);
+    sphere.position.z = 0;
+
+    cube.rotation.x += controls.rotationSpeed;
+    cube.rotation.y += controls.rotationSpeed;
+    cube.rotation.z += controls.rotationSpeed;
+
+    requestAnimationFrame(render);
+
+    renderer.render(scene, camera);
+  }
+
+</script>
+</body>
+</html>

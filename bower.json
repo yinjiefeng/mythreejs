@@ -1,0 +1,12 @@
+{
+  "name": "helloworld",
+  "version": "",
+  "dependencies": {
+    "semantic": "semantic-ui#^2.2.2",
+    "three.js": "^0.80.0"
+  },
+  "devDependencies": {
+    "qunit": "~1.12.0",
+    "jquery": "latest"
+  }
+}
