@@ -10,6 +10,11 @@ Download the [production version][min] or the [development version][max].
 [min]: https://raw.githubusercontent.com//jquery-helloworld/master/dist/jquery.helloworld.min.js
 [max]: https://raw.githubusercontent.com//jquery-helloworld/master/dist/jquery.helloworld.js
 
+Install package:
+
+# npm install
+# bower install
+
 In your web page:
 
 ```html

@@ -3,7 +3,8 @@
   "version": "",
   "dependencies": {
     "semantic": "semantic-ui#^2.2.2",
-    "three.js": "^0.80.0"
+    "three.js": "^0.80.0",
+    "dat.gui": "*"
   },
   "devDependencies": {
     "qunit": "~1.12.0",
